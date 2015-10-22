@@ -5,7 +5,9 @@ Very simple to use. Include jQuery in the head of your page, then call desktopMo
 
 Use the following two links (assuming you also have a .hidden class set to display: none) wherever you want the toggle: 
 
+```
 <a href="#" id="view-full">Desktop Mode</a>
 <a href="#" id="view-regular" class="hidden">Regular Mode</a>
+```
 
 Should be good to go. 
