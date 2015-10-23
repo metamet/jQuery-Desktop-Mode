@@ -1,3 +1,4 @@
+// Set targetWidth to forced page width you want Desktop Mode to be
 var targetWidth = 992;
 var deviceWidth = 'device-width';
 var viewport = $('meta[name="viewport"]');
@@ -22,41 +23,28 @@ var getCookie = function (cname) {
     return "";
 }
 
-// Upon clicking your #view-full link, you'll want to update the page content without refreshing
-var showFullSite = function () {
+// As the page loads, check to see if the user wants to be in Desktop Mode
+// Since this script is placed before the header, we wait for DOM to laod before modifying classes
+if (getCookie("viewport") == "desktop") {
     $(viewport).attr("content", "width=" + targetWidth);
     $(function () {
-        $("#view-full").addClass('hidden');
-        $("#view-regular").removeClass('hidden');
+        $("#view-toggle").addClass("view-desktop").removeClass("view-regular").text("Regular Mode");
     });
 }
 
-// Upon clicking your #view-regular link, you'll want to update the page content without refreshing
-var showRegularSite = function () {
-    $(viewport).attr("content", "width=" + deviceWidth + ", initial-scale=1");
-    $(function () {
-        $("#view-regular").addClass('hidden');
-        $("#view-full").removeClass('hidden');
-    });
-}
-
-// As the page loads, check to see if the user already wants to be in full mode
-// Since we want to put this script before the header, we'll want to wait until the rest of the DOM loads before modifying classes
-if (getCookie("viewport") == "full") {
-    showFullSite();
-}
-
-// Once page finishes loading, we want the links we create to set the cookie and refresh content
+// Once page finishes loading, we want the link to set the cookie and refresh content
+// For toggle link, use: <a href="#" id="view-toggle" class="view-desktop">Desktop Mode</a>
 $(function () {
-    // Set cookie viewport=full
-    $("#view-full").click(function () {
-        setCookie("viewport", "full");
-        showFullSite();
-    });
-
-    // Set cookie viewport=regular
-    $("#view-regular").click(function () {
-        setCookie("viewport", "");
-        showRegularSite();
+    $("#view-toggle").click(function () {
+        if ($("#view-toggle").hasClass("view-desktop")) {
+            setCookie("viewport", "desktop");
+            $(viewport).attr("content", "width=" + targetWidth);
+            $("#view-toggle").toggleClass("view-desktop view-regular").text("Regular Mode");
+        }
+        else if ($("#view-toggle").hasClass("view-regular")) {
+            setCookie("viewport", "");
+            $(viewport).attr("content", "width=" + deviceWidth + ", initial-scale=1");
+            $("#view-toggle").toggleClass("view-desktop view-regular").text("Desktop Mode");
+        }
     });
 });
