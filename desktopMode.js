@@ -28,7 +28,7 @@ var getCookie = function (cname) {
 if (getCookie("viewport") == "desktop") {
     $(viewport).attr("content", "width=" + targetWidth);
     $(function () {
-        $("#view-toggle").addClass("view-desktop").removeClass("view-regular").text("Regular Mode");
+        $("#view-toggle").addClass("view-regular").removeClass("view-desktop").text("Regular Mode");
     });
 }
 
